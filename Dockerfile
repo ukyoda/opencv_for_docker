@@ -1,4 +1,4 @@
-FROM ukyoda/ubuntu_pyenv:16.04_anaconda3
+FROM ukyoda/ubuntu_pyenv:14.04_anaconda3
 
 # Dependencies Components
 RUN    apt-get install -y cmake gcc g++ git \
