@@ -1,7 +1,8 @@
 FROM ukyoda/ubuntu_pyenv:16.04_anaconda3
 
 # Dependencies Components
-RUN    apt-get install -y cmake gcc g++ git \
+RUN    apt-get update \
+    && apt-get install -y cmake gcc g++ git \
                           libjpeg-dev libpng-dev libtiff5-dev \
                           libavcodec-dev libavformat-dev libswscale-dev \
                           pkg-config libgtk2.0-dev libopenblas-dev libatlas-base-dev liblapack-dev \
