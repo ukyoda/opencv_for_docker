@@ -7,10 +7,10 @@ RUN    apt-get update \
                           libavcodec-dev libavformat-dev libswscale-dev \
                           pkg-config libgtk2.0-dev libopenblas-dev libatlas-base-dev liblapack-dev \
                           libeigen3-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev \
-                          sphinx-common libtbb-dev yasm libopencore-amrnb-dev libopencore-amrwb-dev \
+                          sphinx-common libtbb2 libtbb-dev yasm libopencore-amrnb-dev libopencore-amrwb-dev \
                           libopenexr-dev libgstreamer-plugins-base1.0-dev \
                           libavcodec-dev libavutil-dev libavfilter-dev libavformat-dev libavresample-dev \
-                          ffmpeg wget liblapacke-dev \
+                          ffmpeg wget liblapacke-dev libdc1394-22-dev libjasper-dev \
     && apt-get clean
 
 # Boost Install for conda
@@ -41,7 +41,7 @@ RUN    install_version=3.2.0 \
              -D BUILD_DOCS=OFF \
              -D BUILD_opencv_python2=OFF \
              -D BUILD_opencv_python3=ON \
-             -D BUILD_opencv_video=OFF \
+             -D BUILD_opencv_video=ON \
              -D PYTHON3_EXECUTABLE=/usr/local/pyenv/shims/python \
              -D PYTHON_INCLUDE_DIR=/usr/local/pyenv/versions/anaconda3-5.0.1/include/python3.6m \
              -D PYTHON3_LIBRARY=/usr/local/pyenv/versions/anaconda3-5.0.1/lib \
