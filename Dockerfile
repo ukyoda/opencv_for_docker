@@ -3,14 +3,17 @@ FROM ukyoda/ubuntu_pyenv:16.04_anaconda3
 # Dependencies Components
 RUN    apt-get update \
     && apt-get install -y cmake gcc g++ git \
-                          libjpeg-dev libpng-dev libtiff5-dev \
-                          libavcodec-dev libavformat-dev libswscale-dev \
-                          pkg-config libgtk2.0-dev libopenblas-dev libatlas-base-dev liblapack-dev \
+                          libjpeg-dev libpng12-dev libtiff5-dev libopencv-dev build-essential \
+                          libswscale-dev \
+                          checkinstall pkg-config libgtk2.0-dev libopenblas-dev libatlas-base-dev liblapack-dev \
                           libeigen3-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev \
                           sphinx-common libtbb2 libtbb-dev yasm libopencore-amrnb-dev libopencore-amrwb-dev \
-                          libopenexr-dev libgstreamer-plugins-base1.0-dev \
+                          libopenexr-dev libgstreamer0.10-dev libgstreamer-plugins-base1.0-dev \
                           libavcodec-dev libavutil-dev libavfilter-dev libavformat-dev libavresample-dev \
-                          ffmpeg wget liblapacke-dev libdc1394-22-dev libjasper-dev \
+                          ffmpeg wget liblapacke-dev libdc1394-22-dev libjasper-dev libxine2-dev \
+                          python-dev python-numpy libtbb-dev libqt4-dev libgtk2.0-dev \
+                          libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev \
+                          libxvidcore-dev x264 v4l-utils ffmpeg qt5-default \
     && apt-get clean
 
 # Boost Install for conda
