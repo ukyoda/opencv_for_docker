@@ -13,7 +13,7 @@ RUN    apt-get update \
                           ffmpeg wget liblapacke-dev libdc1394-22-dev libjasper-dev libxine2-dev \
                           python-dev python-numpy libtbb-dev libqt4-dev libgtk2.0-dev \
                           libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev \
-                          libxvidcore-dev x264 v4l-utils ffmpeg qt5-default \
+                          libxvidcore-dev x264 libv4l-dev v4l-utils ffmpeg qt5-default \
     && apt-get clean
 
 # Boost Install for conda
@@ -52,6 +52,6 @@ RUN    install_version=3.2.0 \
              -D PYTHON3_PACKAGES_PATH=/usr/local/pyenv/versions/anaconda3-5.0.1/lib/python3.6/site-packages \
              -D OPENCV_EXTRA_MODULES_PATH=../../${opencv_contrib_dir}/modules \
              .. \
-    && make \
+    && make -j$(nproc) \
     && make install \
     && rm /opt/opencv/*.tar.gz
