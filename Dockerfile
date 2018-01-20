@@ -52,6 +52,6 @@ RUN    install_version=3.2.0 \
              -D PYTHON3_PACKAGES_PATH=/usr/local/pyenv/versions/anaconda3-5.0.1/lib/python3.6/site-packages \
              -D OPENCV_EXTRA_MODULES_PATH=../../${opencv_contrib_dir}/modules \
              .. \
-    && make -j \
+    && make \
     && make install \
     && rm /opt/opencv/*.tar.gz
