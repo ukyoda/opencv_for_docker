@@ -3,14 +3,17 @@ FROM ukyoda/ubuntu_pyenv:14.04_anaconda3
 # Dependencies Components
 RUN    apt-get update \
     && apt-get install -y cmake gcc g++ git \
-                          libjpeg-dev libpng-dev libtiff4-dev \
-                          libavcodec-dev libavformat-dev libswscale-dev \
-                          pkg-config libgtk2.0-dev libopenblas-dev libatlas-base-dev liblapack-dev \
+                          libjpeg-dev libpng12-dev libtiff5-dev libopencv-dev build-essential \
+                          libswscale-dev \
+                          checkinstall pkg-config libgtk2.0-dev libopenblas-dev libatlas-base-dev liblapack-dev \
                           libeigen3-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev \
-                          sphinx-common libtbb-dev yasm libopencore-amrnb-dev libopencore-amrwb-dev \
-                          libopenexr-dev libgstreamer-plugins-base1.0-dev \
+                          sphinx-common libtbb2 libtbb-dev yasm libopencore-amrnb-dev libopencore-amrwb-dev \
+                          libopenexr-dev libgstreamer0.10-dev libgstreamer-plugins-base1.0-dev \
                           libavcodec-dev libavutil-dev libavfilter-dev libavformat-dev libavresample-dev \
-                          wget liblapacke-dev \
+                          wget liblapacke-dev libdc1394-22-dev libjasper-dev libxine2-dev \
+                          python-dev python-numpy libtbb-dev libqt4-dev libgtk2.0-dev \
+                          libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev \
+                          libxvidcore-dev x264 libv4l-dev v4l-utils qt5-default liblapacke-dev \
     && apt-get -y install python-dev python-pip python3-dev python3-pip \
     && apt-get -y install software-properties-common \
     && add-apt-repository ppa:mc3man/trusty-media \
@@ -25,8 +28,8 @@ RUN conda install -c conda-forge boost=1.66.0
 RUN    install_version=3.2.0 \
     && mkdir /opt/opencv \
     && cd /opt/opencv \
-    && wget -c --no-check-certificate https://github.com/opencv/opencv/archive/${install_version}.tar.gz -O opencv-${install_version}.tar.gz \
-    && wget -c --no-check-certificate https://github.com/opencv/opencv_contrib/archive/${install_version}.tar.gz -O contrib-${install_version}.tar.gz \
+    && aria2c -x5 https://github.com/opencv/opencv/archive/${install_version}.tar.gz -o opencv-${install_version}.tar.gz \
+    && aria2c -x5 https://github.com/opencv/opencv_contrib/archive/${install_version}.tar.gz -o contrib-${install_version}.tar.gz \
     && mkdir opencv_${install_version} && tar xvzf opencv-${install_version}.tar.gz -C opencv_${install_version} --strip-components 1 \
     && mkdir contrib_${install_version} && tar xvzf contrib-${install_version}.tar.gz -C contrib_${install_version} --strip-components 1 \
     && opencv_src_dir=opencv_${install_version} \
@@ -36,18 +39,12 @@ RUN    install_version=3.2.0 \
     && cd release \
     && cmake -D CMAKE_BUILD_TYPE=RELEASE \
              -D CMAKE_INSTALL_PREFIX=/usr/local \
-             -D BUILD_opencv_java=OFF \
-             -D WITH_IPP=OFF \
-             -D WITH_1394=OFF \
-             -D WITH_FFMPEG=OFF \
+             -D WITH_CUDA=OFF \
              -D WITH_LAPACK=OFF \
-             -D BUILD_EXAMPLES=OFF \
-             -D BUILD_TESTS=OFF \
-             -D BUILD_PERF_TESTS=OFF \
-             -D BUILD_DOCS=OFF \
+             -D BUILD_TIFF=ON \
+             -D BUILD_opencv_java=OFF \
              -D BUILD_opencv_python2=OFF \
              -D BUILD_opencv_python3=ON \
-             -D BUILD_opencv_video=OFF \
              -D PYTHON3_EXECUTABLE=/usr/local/pyenv/shims/python \
              -D PYTHON_INCLUDE_DIR=/usr/local/pyenv/versions/anaconda3-5.0.1/include/python3.6m \
              -D PYTHON3_LIBRARY=/usr/local/pyenv/versions/anaconda3-5.0.1/lib \
@@ -55,6 +52,6 @@ RUN    install_version=3.2.0 \
              -D PYTHON3_PACKAGES_PATH=/usr/local/pyenv/versions/anaconda3-5.0.1/lib/python3.6/site-packages \
              -D OPENCV_EXTRA_MODULES_PATH=../../${opencv_contrib_dir}/modules \
              .. \
-    && make -j \
+    && make -j$(nproc) \
     && make install \
     && rm /opt/opencv/*.tar.gz
