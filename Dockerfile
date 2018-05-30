@@ -49,3 +49,22 @@ RUN    install_version=3.2.0 \
     && make -j$(nproc) \
     && make install \
     && rm /opt/opencv/*.tar.gz
+
+# Jupyter Notebookインストール
+RUN conda install jupyter
+
+# Jupyterのパスワード設定 (パスワードはpassword)
+RUN apt-get -y install expect
+RUN useradd -m vault
+User vault
+RUN mkdir ~/.jupyter && \
+    expect -c "\
+    set timeout 60; \
+    spawn jupyter notebook password; \
+    expect \"Enter password:\"; send \"password\r\"; \
+    expect \"erify password:\"; send \"password\r\"; \
+    expect eof;\
+    "
+WORKDIR /home/vault
+EXPOSE 8888
+CMD jupyter notebook --ip=0.0.0.0 --port 8888
